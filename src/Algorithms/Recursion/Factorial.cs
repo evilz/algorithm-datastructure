@@ -1,4 +1,6 @@
-﻿namespace Algorithms.Recursion
+﻿using System.Linq;
+
+namespace Algorithms.Recursion
 {
     public static class BasicRecursion
     {
@@ -24,15 +26,24 @@
     {
         public static int Factorial(int n)
         {
-            var accumulator = 1;
-            while (true)
-            {
-                if (n < 0) { return 0; }
-                if (n <= 1) { return accumulator; }
+            if (n < 0) { return 0; }
 
-                accumulator = n*accumulator;
-                n--;
+            var accumulator = 1;
+            for (var i = 1 ; i <= n; i++)
+            {
+                accumulator = i * accumulator;
             }
+            return accumulator;
+        }
+    }
+    public static class Enumerable
+    {
+        public static int Factorial(int n)
+        {
+            if (n < 0) { return 0; }
+
+            return System.Linq.Enumerable.Range(1, n)
+                .Aggregate(1, (accumulator, i) => accumulator * i);
         }
     }
 }
