@@ -40,10 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collection\SimpleLinkedList\LinkedItem.cs" />
-    <Compile Include="Collection\SimpleLinkedList\ILinkedList.cs" />
-    <Compile Include="Collection\SimpleLinkedList\LinkedList.cs" />
+    <Compile Include="Collection\LinkedLists\SinglyLinkedItem.cs" />
+    <Compile Include="Collection\LinkedLists\ISinglyLinkedList.cs" />
+    <Compile Include="Collection\LinkedLists\SinglyLinkedList.cs" />
+    <Compile Include="Point3D.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Size.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace DataStructure.Collection.SimpleLinkedList
+namespace DataStructure.Collection.LinkedLists
 {
-    public class LinkedList<T> : ILinkedList<T>
+    public class SinglyLinkedList<T> : ISinglyLinkedList<T>
     {
-        public LinkedList(IEnumerable<T> datas = null)
+        public SinglyLinkedList(IEnumerable<T> datas = null)
         {
             if (datas == null) { return; }
 
@@ -22,15 +22,15 @@ namespace DataStructure.Collection.SimpleLinkedList
         }
 
         public int Length { get; private set; }
-        public LinkedItem<T> Head { get; private set; }
-        public LinkedItem<T> Tail { get; private set; }
+        public SinglyLinkedItem<T> Head { get; private set; }
+        public SinglyLinkedItem<T> Tail { get; private set; }
 
-        public ILinkedList<T> AddAfter(T data, LinkedItem<T> previousItem)
+        public ISinglyLinkedList<T> AddAfter(T data, SinglyLinkedItem<T> previousItem)
         {
-            return AddAfter(new LinkedItem<T>(data), previousItem);
+            return AddAfter(new SinglyLinkedItem<T>(data), previousItem);
         }
 
-        public ILinkedList<T> AddAfter(LinkedItem<T> newItem, LinkedItem<T> previousItem)
+        public ISinglyLinkedList<T> AddAfter(SinglyLinkedItem<T> newItem, SinglyLinkedItem<T> previousItem)
         {
             if (previousItem == null) return this;
 
@@ -45,12 +45,12 @@ namespace DataStructure.Collection.SimpleLinkedList
             return this;
         }
 
-        public ILinkedList<T> AddFirst(T data)
+        public ISinglyLinkedList<T> AddFirst(T data)
         {
-            return AddFirst(new LinkedItem<T>(data));
+            return AddFirst(new SinglyLinkedItem<T>(data));
         }
 
-        public ILinkedList<T> AddFirst(LinkedItem<T> newItem)
+        public ISinglyLinkedList<T> AddFirst(SinglyLinkedItem<T> newItem)
         {
             newItem.Next = Head;
             Head = newItem;
@@ -64,12 +64,12 @@ namespace DataStructure.Collection.SimpleLinkedList
             return this;
         }
 
-        public ILinkedList<T> AddLast(T data)
+        public ISinglyLinkedList<T> AddLast(T data)
         {
-            return AddLast(new LinkedItem<T>(data));
+            return AddLast(new SinglyLinkedItem<T>(data));
         }
 
-        public ILinkedList<T> AddLast(LinkedItem<T> newItem)
+        public ISinglyLinkedList<T> AddLast(SinglyLinkedItem<T> newItem)
         {
             Tail.Next = newItem;
             Tail = Tail.Next;
@@ -77,7 +77,7 @@ namespace DataStructure.Collection.SimpleLinkedList
             return this;
         }
 
-        public ILinkedList<T> Clear()
+        public ISinglyLinkedList<T> Clear()
         {
             Length = 0;
             Head = null;
@@ -90,7 +90,7 @@ namespace DataStructure.Collection.SimpleLinkedList
             return Find(data) != null;
         }
 
-        public LinkedItem<T> Find(T data)
+        public SinglyLinkedItem<T> Find(T data)
         {
             var item = Head;
             while (item != null)
@@ -102,7 +102,7 @@ namespace DataStructure.Collection.SimpleLinkedList
             return null;
         }
 
-        public ILinkedList<T> RemoveFirst()
+        public ISinglyLinkedList<T> RemoveFirst()
         {
             Head = Head.Next;
 
@@ -114,7 +114,7 @@ namespace DataStructure.Collection.SimpleLinkedList
             return this;
         }
 
-        public ILinkedList<T> RemoveAfter(LinkedItem<T> previousItem)
+        public ISinglyLinkedList<T> RemoveAfter(SinglyLinkedItem<T> previousItem)
         {
             if (previousItem.Next == null) return this;
 
@@ -123,12 +123,12 @@ namespace DataStructure.Collection.SimpleLinkedList
             return this;
         }
         
-        public bool IsHead(LinkedItem<T> item)
+        public bool IsHead(SinglyLinkedItem<T> item)
         {
             return Head == item;
         }
 
-        public bool IsTail(LinkedItem<T> item)
+        public bool IsTail(SinglyLinkedItem<T> item)
         {
             return Tail == item;
         }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DataStructure.Collection.LinkedLists;
+using System;
 using System.Linq;
-using DataStructure.Collection.SimpleLinkedList;
 
 namespace PerfTests
 {
@@ -11,7 +11,7 @@ namespace PerfTests
             Console.ReadLine();
             var enumerable = Enumerable.Range(0, 10000);
 
-            var list = new LinkedList<int>(enumerable);
+            var list = new SinglyLinkedList<int>(enumerable);
             Console.ReadLine();
             list.Clear();
 
