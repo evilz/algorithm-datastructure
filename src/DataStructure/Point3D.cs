@@ -1,4 +1,7 @@
-﻿public struct Point3D
+﻿using System.Diagnostics;
+
+[DebuggerDisplay("x = {X} y = {Y} z = {Z}")]
+public struct Point3D
 {
     public static readonly Point3D Empty = new Point3D();
 

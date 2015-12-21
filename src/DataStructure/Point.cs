@@ -1,4 +1,7 @@
-﻿public struct Point
+﻿using System.Diagnostics;
+
+[DebuggerDisplay("x = {X} y = {Y}")]
+public struct Point
 {
     public static readonly Point Empty = new Point();
 

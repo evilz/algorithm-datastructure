@@ -6,7 +6,7 @@ namespace Algorithms.GraphTraversal
 {
     public static class DepthFirstSearch
     {
-        public static IEnumerable<T> BrowseGraph<T>(T start, Func<T, IEnumerable<T>> getNeighbours)
+        public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd = null)
         {
             var visited = new HashSet<T>();
             var stack = new Stack<T>();
@@ -16,13 +16,16 @@ namespace Algorithms.GraphTraversal
             while (stack.Any())
             {
                 var current = stack.Pop();
-
+                
                 if (!visited.Add(current)) { continue; }
 
                 yield return current;
 
+                if (isEnd != null && isEnd(current))
+                    break;
+
                 var neighbours = getNeighbours(current)
-                                    .Where(n => !visited.Contains(n));
+                                .Where(n => !visited.Contains(n));
 
                 foreach (var neighbour in neighbours.Reverse())
                     stack.Push(neighbour);
@@ -30,7 +33,7 @@ namespace Algorithms.GraphTraversal
 
         }
 
-        public static IEnumerable<T> FindPath<T>(T start, T end, Func<T, IEnumerable<T>> getNeighbours)
+        public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd)
         {
             var visited = new HashSet<T>();
             var stack = new Stack<T>();
@@ -43,16 +46,31 @@ namespace Algorithms.GraphTraversal
                 var current = stack.Pop();
                 path.Push(current);
 
-                if (!visited.Add(current)) { continue; }
+                visited.Add(current);
 
-                if (current.Equals(end))
+                if (isEnd(current))
                     return path.Reverse();
 
                 var neighbours = getNeighbours(current)
-                                    .Where(n => !visited.Contains(n));
+                                    .Where(n => !visited.Contains(n))
+                                    .ToArray();
 
                 if (!neighbours.Any())
-                    path.Pop();
+                {
+                    if(!stack.Any()) { break; }
+
+                    var lastInPath = path.Peek();
+                    var lastInPathNeighbours = getNeighbours(lastInPath);
+                    var next = stack.Peek();
+                    while (!lastInPathNeighbours.Contains(next))
+                    {
+                        path.Pop();
+                        lastInPath = path.Peek();
+                        lastInPathNeighbours = getNeighbours(lastInPath);
+                    }
+ 
+                }
+    
 
                 foreach (var neighbour in neighbours.Reverse())
                     stack.Push(neighbour);
