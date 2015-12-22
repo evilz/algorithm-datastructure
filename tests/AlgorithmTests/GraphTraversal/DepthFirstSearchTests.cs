@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace AlgorithmTests.GraphTraversal
 {
-    class DepthFirstSearchTests
+    public class DepthFirstSearchTests
     {
         [Test]
         public void Small_maze_test()
@@ -24,26 +24,13 @@ namespace AlgorithmTests.GraphTraversal
 %.-----------------%  
 %%%%%%%%%%%%%%%%%%%%";
 
-            Func<Point, char> getCell = p => maze.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToArray()[p.Y][p.X];
-
-            Func<Point, IEnumerable<Point>> getNeighbours = p =>
-             {
-                 var allPoints = new[]
-                 {
-                    new Point(p.X, p.Y - 1), // top
-                     new Point(p.X + 1, p.Y), // right
-                     new Point(p.X, p.Y + 1), // bottom
-                     new Point(p.X - 1, p.Y), // left
-                 };
-
-                 return allPoints.Where(x => getCell(x) != '%');
-
-             };
+            Func<Point, char> getCell = GetCell(maze);
+            Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
 
 
             var result = DepthFirstSearch.Explore(start, getNeighbours);
 
-            List<Point> path = new List<Point>();
+            var path = new List<Point>();
             foreach (var item in result)
             {
                 path.Add(item);
@@ -110,29 +97,13 @@ namespace AlgorithmTests.GraphTraversal
 %.-----------------%  
 %%%%%%%%%%%%%%%%%%%%";
 
-            Func<Point, char> getCell = p =>
-            {
-                return maze.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToArray()[p.Y][p.X];
-            };
-
-            Func<Point, IEnumerable<Point>> getNeighbours = p =>
-            {
-                var allPoints = new[]
-                {
-                    new Point(p.X, p.Y - 1), // top
-                     new Point(p.X + 1, p.Y), // right
-                     new Point(p.X, p.Y + 1), // bottom
-                     new Point(p.X - 1, p.Y), // left
-                };
-
-                return allPoints.Where(x => getCell(x) != '%');
-
-            };
+            var getCell = GetCell(maze);
+            var getNeighbours = GetNeighbours(getCell);
 
 
             var result = DepthFirstSearch.FindPath(start, getNeighbours,point => point == end ).ToArray();
 
-            for (int i = 0; i < result.Count() - 1; i++)
+            for (var i = 0; i < result.Length - 1; i++)
             {
                 var twoPoints = result.Skip(i).Take(2).ToArray();
                 var point1 = twoPoints[0];
@@ -150,17 +121,14 @@ namespace AlgorithmTests.GraphTraversal
             var start = new Point(1, 3);
             var end = new Point(7, 3);
 
-            var maze = @"
+            const string maze = @"
 %%%%%%%%%
 %-------%
 %%%%-%%%%
 %P------%
 %%%%%%%%%";
 
-            Func<Point, char> getCell = p =>
-            {
-                return maze.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToArray()[p.Y][p.X];
-            };
+            Func<Point, char> getCell = p => maze.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToArray()[p.Y][p.X];
 
             Func<Point, IEnumerable<Point>> getNeighbours = p =>
             {
@@ -179,7 +147,7 @@ namespace AlgorithmTests.GraphTraversal
 
             var result = DepthFirstSearch.FindPath(start, getNeighbours, point => point == end).ToArray();
 
-            for (int i = 0; i < result.Count() - 1; i++)
+            for (var i = 0; i < result.Length - 1; i++)
             {
                 var twoPoints = result.Skip(i).Take(2).ToArray();
                 var point1 = twoPoints[0];
@@ -192,22 +160,46 @@ namespace AlgorithmTests.GraphTraversal
         }
 
         [Test]
+        public void Explore_should_stop_on_specific_condition()
+        {
+            var start = new Point(1, 3);
+            var end = new Point(1, 1);
+            Func<Point,bool> endCondition = point => point == end;
+           
+            const string maze = @"
+%%%%%%%%%
+%-------%
+%%%%-%%%%
+%P------%
+%%%%%%%%%";
+
+            var getCell = GetCell(maze);
+            var getNeighbours = GetNeighbours(getCell);
+
+            var result = DepthFirstSearch
+                .Explore(start, getNeighbours, endCondition)
+                .ToArray();
+
+            Assert.That(result.Count(), Is.EqualTo(12));
+            Assert.That(result.Last(),Is.EqualTo(end));
+        }
+
+        [Test]
         public void FindPath_should_return_empty_enumerqble_when_no_path_found()
         {
             var start = new Point(1, 3);
             var end = new Point(7, 1);
 
-            var maze = @"
+            const string maze = @"
 %%%%%%%%%
 %-------%
 %%%%%%%%%
 %P------%
 %%%%%%%%%";
 
-            Func<Point, char> getCell = GetCell(maze);
-            Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
-
-
+            var getCell = GetCell(maze);
+            var getNeighbours = GetNeighbours(getCell);
+            
             var result = DepthFirstSearch.FindPath(start, getNeighbours, point => point == end);
 
             Assert.That(result, Is.Empty);
@@ -226,7 +218,6 @@ namespace AlgorithmTests.GraphTraversal
                 };
 
                 return allPoints.Where(x => getCell(x) != '%');
-
             };
         }
 

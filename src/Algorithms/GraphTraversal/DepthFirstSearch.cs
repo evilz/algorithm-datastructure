@@ -9,41 +9,39 @@ namespace Algorithms.GraphTraversal
         public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd = null)
         {
             var visited = new HashSet<T>();
-            var stack = new Stack<T>();
+            var toVisit = new Stack<T>();
 
-            stack.Push(start);
+            toVisit.Push(start);
 
-            while (stack.Any())
+            while (toVisit.Any())
             {
-                var current = stack.Pop();
-                
-                if (!visited.Add(current)) { continue; }
+                var current = toVisit.Pop();
+
+                visited.Add(current);
 
                 yield return current;
 
                 if (isEnd != null && isEnd(current))
                     break;
 
-                var neighbours = getNeighbours(current)
-                                .Where(n => !visited.Contains(n));
+                var neighbours = GetNotVisitiedNeighbours(getNeighbours, current, visited);
 
-                foreach (var neighbour in neighbours.Reverse())
-                    stack.Push(neighbour);
+                neighbours.ForEach(toVisit.Push);
             }
 
         }
-
+        
         public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd)
         {
             var visited = new HashSet<T>();
-            var stack = new Stack<T>();
+            var toVisit = new Stack<T>();
             var path = new Stack<T>();
 
-            stack.Push(start);
+            toVisit.Push(start);
 
-            while (stack.Any())
+            while (toVisit.Any())
             {
-                var current = stack.Pop();
+                var current = toVisit.Pop();
                 path.Push(current);
 
                 visited.Add(current);
@@ -51,17 +49,15 @@ namespace Algorithms.GraphTraversal
                 if (isEnd(current))
                     return path.Reverse();
 
-                var neighbours = getNeighbours(current)
-                                    .Where(n => !visited.Contains(n))
-                                    .ToArray();
+                var neighbours = GetNotVisitiedNeighbours(getNeighbours, current, visited);
 
                 if (!neighbours.Any())
                 {
-                    if(!stack.Any()) { break; }
+                    if(!toVisit.Any()) { break; }
 
                     var lastInPath = path.Peek();
                     var lastInPathNeighbours = getNeighbours(lastInPath);
-                    var next = stack.Peek();
+                    var next = toVisit.Peek();
                     while (!lastInPathNeighbours.Contains(next))
                     {
                         path.Pop();
@@ -70,14 +66,22 @@ namespace Algorithms.GraphTraversal
                     }
  
                 }
-    
-
-                foreach (var neighbour in neighbours.Reverse())
-                    stack.Push(neighbour);
+                else
+                {
+                    neighbours.ForEach(toVisit.Push);
+                }
             }
 
             return Enumerable.Empty<T>();
 
+        }
+
+        private static List<T> GetNotVisitiedNeighbours<T>(Func<T, IEnumerable<T>> getNeighbours, T current, HashSet<T> visited)
+        {
+            return getNeighbours(current)
+                .Where(n => !visited.Contains(n))
+                .Reverse()
+                .ToList();
         }
     }
 }
