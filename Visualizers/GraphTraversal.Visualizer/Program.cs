@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Algorithms.GraphTraversal;
 using DataStructure;
-using Mono.Options;
 
 namespace GraphTraversal.Visualizer
 {
     class Program
     {
-        
-
-        public const string maze =
+        private const string MAZE =
 @"%%%%%%%%%%%%%%%%%%%%
 %--------------%---%
 %-%%-%%-%%-%%-%%-%-%
@@ -23,9 +18,9 @@ namespace GraphTraversal.Visualizer
 %.-----------------%  
 %%%%%%%%%%%%%%%%%%%%";
 
-        private static Func<Point, char> GetCell(string maze)
+        private static Func<Point, char> GetCell(string grid)
         {
-            return p => maze.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToArray()[p.Y][p.X];
+            return p => grid.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToArray()[p.Y][p.X];
         }
 
         private static Func<Point, IEnumerable<Point>> GetNeighbours(Func<Point, char> getCell)
@@ -44,47 +39,87 @@ namespace GraphTraversal.Visualizer
             };
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             var start = new Point(9, 3);
             var end = new Point(1, 5);
-
-            var currentMaze = maze;
-
-            Func<Point, char> getCell = GetCell(maze);
+            var currentMaze = MAZE;
+            Func<Point, char> getCell = GetCell(MAZE);
             Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
+            var millisecondsTimeout = 300;
 
+            var algorithms = new Dictionary<int, Tuple<string, Func<IEnumerable<Point>>, Func<IEnumerable<Point>>>> 
+            {
+                {1, "Depth First Search", () =>  DepthFirstSearch.Explore(start, getNeighbours),()=>DepthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) ) },
+                {2, "Breadth First Search", () =>  BreadthFirstSearch.Explore(start, getNeighbours) ,()=>BreadthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) )}
+            };
 
-            var result = DepthFirstSearch.Explore(start, getNeighbours);
+            Console.WriteLine("Choose traversal algorithm :");
+            
+            foreach (var algorithm in algorithms)
+            {
+                Console.WriteLine($"\t{algorithm.Key} - {algorithm.Value.Item1}");
+            }
 
-            var path = new List<Point>();
+            int choice = 0;
+            while (choice == 0)
+            {
+                int.TryParse(Console.ReadLine(), out choice);
+            }
+
+            var result = algorithms[choice].Item2();
+            var path = algorithms[choice].Item3().ToList();
+
+            var visited = new List<Point>();
+            
             foreach (var item in result)
             {
 
-                path.Add(item);
+                visited.Add(item);
                 var lines = currentMaze.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 var line = lines[item.Y].ToCharArray();
                 line[item.X] = '*';
                 lines[item.Y] = new string(line);
                 currentMaze = string.Join(Environment.NewLine, lines);
-                DisplayMaze(currentMaze, path, "Breadth First Search");
+                DisplayMaze(currentMaze, visited.Count,0,algorithms[choice].Item1);
                 
-                Thread.Sleep(500);
+                Thread.Sleep(millisecondsTimeout);
                 if (item == end) break;
 
             }
+            
+            foreach (var item in path)
+            {
+                var lines = currentMaze.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var line = lines[item.Y].ToCharArray();
+                line[item.X] = '+';
+                lines[item.Y] = new string(line);
+                currentMaze = string.Join(Environment.NewLine, lines);
+            }
+            DisplayMaze(currentMaze, visited.Count(),path.Count(), algorithms[choice].Item1);
+            
             Console.Read();
         }
 
-        private static void DisplayMaze(string currentMaze,IEnumerable<Point> path,string algoName )
+        private static void DisplayMaze(string currentMaze,int visitedCount,int pathCount,string algoName )
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(algoName);
             Console.ResetColor();
-            Console.WriteLine($"Explored node count : {path.Count()}");
+            Console.WriteLine($"Explored node count : {visitedCount}");
+            Console.WriteLine($"Path length : {pathCount}");
             Console.WriteLine();
-            currentMaze.ToList().ForEach(Console.Write);
+            foreach (var c in currentMaze.ToList())
+            {
+                if(c == '*')
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                if(c == '+')
+                    Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(c);
+                Console.ResetColor();
+            }
+            
         }
     }
 }

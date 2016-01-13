@@ -29,6 +29,40 @@ namespace Algorithms.GraphTraversal
 
         }
 
+        public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd = null)
+        {
+            var visited = new Dictionary<T, T> { { start, default(T) } };
+            var toVisit = new Queue<T>();
+            toVisit.Enqueue(start);
+            
+            while (toVisit.Any())
+            {
+                var current = toVisit.Dequeue();
+                
+                if (isEnd != null && isEnd(current))
+                {
+                    var path = new List<T>();
+                    while (!current.Equals(start))
+                    { 
+                        path.Add(current);
+                        current = visited[current];
+                    }
+                    path.Add(current);
+                    path.Reverse();
+                    return path;
+                }
+
+                foreach (var next in getNeighbours(current)
+                    .Where(n => !visited.ContainsKey(n)))
+                {
+                    toVisit.Enqueue(next);
+                    visited.Add(next, current);
+                }
+            }
+
+            return Enumerable.Empty<T>();
+        }
+
         //public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd)
         //{
         //    var visited = new HashSet<T>();
