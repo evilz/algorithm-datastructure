@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81B80432-0ECC-4A93-9826-A1208A965AA2}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{EB126F64-ED33-45C2-B0C9-DEA178F151C1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlgorithmTests</RootNamespace>
-    <AssemblyName>AlgorithmTests</AssemblyName>
+    <RootNamespace>GraphTraversal.Visualizer</RootNamespace>
+    <AssemblyName>GraphTraversal.Visualizer</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,24 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphTraversal\BreadthFirstSearchTests.cs" />
-    <Compile Include="GraphTraversal\DepthFirstSearchTests.cs" />
-    <Compile Include="Recursion\RecusionTests.cs" />
-    <Compile Include="Sorting\MergeSortTests.cs" />
+    <Compile Include="Mono.Options-PCL.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Algorithms\Algorithms.csproj">
-      <Project>{27E61568-DA8E-4575-B897-A45FD94AC11F}</Project>
+      <Project>{27e61568-da8e-4575-b897-a45fd94ac11f}</Project>
       <Name>Algorithms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\DataStructure\DataStructure.csproj">
       <Project>{419cb19e-3dcb-4d61-8fd9-ccac9282c634}</Project>
       <Name>DataStructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

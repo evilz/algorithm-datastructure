@@ -1,4 +1,7 @@
-﻿public struct Size
+﻿namespace DataStructure
+{
+
+public struct Size
 {
 
     public static readonly Size Empty = new Size();
@@ -84,4 +87,7 @@
     {
         return "{Width=" + Width.ToString() + ", Height=" + Height.ToString() + "}";
     }
+}
+
+
 }

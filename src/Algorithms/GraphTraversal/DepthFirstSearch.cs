@@ -24,9 +24,11 @@ namespace Algorithms.GraphTraversal
                 if (isEnd != null && isEnd(current))
                     break;
 
-                var neighbours = GetNotVisitiedNeighbours(getNeighbours, current, visited);
-
-                neighbours.ForEach(toVisit.Push);
+                getNeighbours(current)
+                    .Where(n => !visited.Contains(n))
+                    .Reverse()
+                    .ToList()
+                    .ForEach(toVisit.Push);
             }
 
         }
@@ -49,7 +51,10 @@ namespace Algorithms.GraphTraversal
                 if (isEnd(current))
                     return path.Reverse();
 
-                var neighbours = GetNotVisitiedNeighbours(getNeighbours, current, visited);
+                var neighbours = getNeighbours(current)
+                    .Where(n => !visited.Contains(n))
+                    .Reverse()
+                    .ToList();
 
                 if (!neighbours.Any())
                 {
@@ -74,14 +79,6 @@ namespace Algorithms.GraphTraversal
 
             return Enumerable.Empty<T>();
 
-        }
-
-        private static List<T> GetNotVisitiedNeighbours<T>(Func<T, IEnumerable<T>> getNeighbours, T current, HashSet<T> visited)
-        {
-            return getNeighbours(current)
-                .Where(n => !visited.Contains(n))
-                .Reverse()
-                .ToList();
         }
     }
 }

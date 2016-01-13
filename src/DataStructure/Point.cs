@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics;
 
+namespace DataStructure
+{
+
 [DebuggerDisplay("x = {X} y = {Y}")]
 public struct Point
 {
@@ -109,6 +112,9 @@ public struct Point
     {
         return n & 0xffff;
     }
+}
+
+
 }
 
 

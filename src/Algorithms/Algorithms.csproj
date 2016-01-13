@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphTraversal\BreadthFirstSearch.cs" />
     <Compile Include="GraphTraversal\DepthFirstSearch.cs" />
     <Compile Include="Recursion\Factorial.cs" />
     <Compile Include="Sorting\MergeSort.cs" />

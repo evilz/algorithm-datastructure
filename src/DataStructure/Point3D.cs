@@ -1,5 +1,10 @@
 ﻿using System.Diagnostics;
 
+
+
+namespace DataStructure
+{
+
 [DebuggerDisplay("x = {X} y = {Y} z = {Z}")]
 public struct Point3D
 {
@@ -69,5 +74,7 @@ public struct Point3D
     
 }
 
+
+}
 
 
