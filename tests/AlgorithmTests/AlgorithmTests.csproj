@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphTraversal\DijkstraTests.cs" />
     <Compile Include="GraphTraversal\BreadthFirstSearchTests.cs" />
     <Compile Include="GraphTraversal\DepthFirstSearchTests.cs" />
     <Compile Include="Recursion\RecusionTests.cs" />

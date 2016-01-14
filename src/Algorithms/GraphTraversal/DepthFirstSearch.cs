@@ -6,55 +6,29 @@ namespace Algorithms.GraphTraversal
 {
     public static class DepthFirstSearch
     {
-        //public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd = null)
-        //{
-        //    var visited = new HashSet<T>();
-        //    var toVisit = new Stack<T>();
-
-        //    toVisit.Push(start);
-
-        //    while (toVisit.Any())
-        //    {
-        //        var current = toVisit.Pop();
-
-        //        visited.Add(current);
-
-        //        yield return current;
-
-        //        if (isEnd != null && isEnd(current))
-        //            break;
-
-        //        getNeighbours(current)
-        //            .Where(n => !visited.Contains(n))
-        //            .Reverse()
-        //            .ToList()
-        //            .ForEach(toVisit.Push);
-        //    }
-
-        //}
 
         public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours,
             Func<T, bool> isEnd = null)
         {
-            return dfs(start, getNeighbours, false, isEnd);
+            return Dfs(start, getNeighbours, false, isEnd);
         }
-    
 
-    private static IEnumerable<T> dfs<T>(T start, Func<T, IEnumerable<T>> getNeighbours,bool pathOnly, Func<T, bool> isEnd = null)
+
+        private static IEnumerable<T> Dfs<T>(T start, Func<T, IEnumerable<T>> getNeighbours, bool pathOnly, Func<T, bool> isEnd = null)
         {
-            var visitedFrom = new Dictionary<T,T>();
+            var visitedFrom = new Dictionary<T, T>();
             var toVisit = new Stack<T>();
 
             toVisit.Push(start);
 
-            visitedFrom.Add(start,default(T));
+            visitedFrom.Add(start, default(T));
 
             while (toVisit.Any())
             {
                 var current = toVisit.Pop();
-                
-                if(!pathOnly) yield return current;
-                
+
+                if (!pathOnly) yield return current;
+
                 if (isEnd != null && isEnd(current))
                 {
                     if (pathOnly)
@@ -70,14 +44,11 @@ namespace Algorithms.GraphTraversal
                         {
                             yield return path.Dequeue();
                         }
-                       }
-                    else
-                    {
-                        yield break;
                     }
+                    yield break;
                 }
-                   
-                
+
+
                 var neighbours = getNeighbours(current)
                     .Where(n => !visitedFrom.ContainsKey(n))
                     .Reverse()
@@ -93,7 +64,7 @@ namespace Algorithms.GraphTraversal
 
         public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd)
         {
-            return dfs(start, getNeighbours, true, isEnd);
+            return Dfs(start, getNeighbours, true, isEnd);
         }
     }
 }
