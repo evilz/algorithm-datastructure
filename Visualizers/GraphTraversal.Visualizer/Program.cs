@@ -15,7 +15,12 @@ namespace GraphTraversal.Visualizer
 %-%%-%%-%%-%%-%%-%-%
 %--------S-------%-%
 %%%%%%%%%%%%%%%%%%-%
-%.-----------------%  
+%------------------%  
+%------------------%
+%------------------%
+%.-----------------%
+%------------------%
+%------------------%
 %%%%%%%%%%%%%%%%%%%%";
 
         private static Func<Point, char> GetCell(string grid)
@@ -42,12 +47,12 @@ namespace GraphTraversal.Visualizer
         static void Main()
         {
             var start = new Point(9, 3);
-            var end = new Point(1, 5);
+            var end = new Point(1, 8);
             var currentMaze = MAZE;
             Func<Point, char> getCell = GetCell(MAZE);
             Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
             Func<Point, Point, int> getCost = (from, to) => (to.X + to.Y)%2 == 0 ? 1 : 3;
-            Func<Point, Point, int> manhattanHeuristic = (from, to) => Math.Abs(to.X - end.X) + Math.Abs(to.Y - end.Y);
+            Func<Point, int> manhattanHeuristic = (to) => Math.Abs(to.X - end.X) + Math.Abs(to.Y - end.Y);
             var millisecondsTimeout = 300;
 
             var algorithms = new Dictionary<int, Tuple<string, Func<IEnumerable<Point>>, Func<IEnumerable<Point>>>> 
@@ -55,22 +60,27 @@ namespace GraphTraversal.Visualizer
                 {1, "Depth First Search", () =>  DepthFirstSearch.Explore(start, getNeighbours),()=>DepthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) ) },
                 {2, "Breadth First Search", () =>  BreadthFirstSearch.Explore(start, getNeighbours) ,()=>BreadthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) )},
                 {3, "Dijkstra", () =>  Dijkstra.Explore(start, getNeighbours,getCost ) ,()=>Dijkstra.FindPath(start,getNeighbours,getCost,p => p.Equals(end) )},
-                {4, "Greedy Best-First Search (Dijkstra with manhattan)", () =>  Dijkstra.Explore(start, getNeighbours,manhattanHeuristic ) ,()=>Dijkstra.FindPath(start,getNeighbours,manhattanHeuristic,p => p.Equals(end) )},
+                {4, "Greedy Best-First Search (with manhattan)", () => GreedyBestFirstSearch.Explore(start, getNeighbours, manhattanHeuristic),()=>GreedyBestFirstSearch.FindPath(start,getNeighbours,manhattanHeuristic,p => p.Equals(end) )},
             };
 
-            Console.WriteLine("Choose traversal algorithm :");
             
-            foreach (var algorithm in algorithms)
-            {
-                Console.WriteLine($"\t{algorithm.Key} - {algorithm.Value.Item1}");
-            }
-
             int choice = 0;
-            while (choice == 0)
+            while (choice != 10)
+            {
+                Console.Clear();
+                Console.WriteLine("Choose traversal algorithm :");
+
+                foreach (var algorithm in algorithms)
+                {
+                    Console.WriteLine($"\t{algorithm.Key} - {algorithm.Value.Item1}");
+                }
+
+
+                while (choice == 0)
             {
                 int.TryParse(Console.ReadLine(), out choice);
             }
-
+            
             var result = algorithms[choice].Item2();
             var path = algorithms[choice].Item3().ToList();
 
@@ -102,7 +112,11 @@ namespace GraphTraversal.Visualizer
             }
             DisplayMaze(currentMaze, visited.Count(),path.Count(), algorithms[choice].Item1);
             
+            choice = 0;
+            Console.WriteLine();
+            Console.WriteLine($"Press any key to reset");
             Console.Read();
+            }
         }
 
         private static void DisplayMaze(string currentMaze,int visitedCount,int pathCount,string algoName )
