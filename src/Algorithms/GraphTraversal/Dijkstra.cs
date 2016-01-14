@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /* NOTE
 - The SortedDictionary<TKey, TValue> generic class is a binary search tree with O(log n) retrieval,
@@ -23,40 +22,116 @@ namespace Algorithms.GraphTraversal
 {
     public class Dijkstra
     {
-        public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, bool> isEnd = null)
+
+        class PriorityQueue<TPriority, TItem> : IEnumerable<KeyValuePair<TPriority, TItem>>
         {
-            var visited = new Dictionary<T, T> { { start, default(T) } };
-            var toVisit = new SortedDictionary<int,T>();
-            toVisit.Add(0,start);
+            readonly SortedDictionary<TPriority, Queue<TItem>> _subqueues;
+
+            public PriorityQueue()
+            {
+                _subqueues = new SortedDictionary<TPriority, Queue<TItem>>(Comparer<TPriority>.Default);
+            }
+            
+            public void Enqueue(TPriority priority, TItem item)
+            {
+                if (!_subqueues.ContainsKey(priority))
+                {
+                    _subqueues.Add(priority, new Queue<TItem>());
+                }
+
+                _subqueues[priority].Enqueue(item);
+            }
+            
+            public KeyValuePair<TPriority, TItem> Dequeue()
+            {
+                if (_subqueues.Any())
+                {
+                    var first = _subqueues.First();
+                    var nextItem = first.Value.Dequeue();
+                    if (!first.Value.Any())
+                    {
+                        _subqueues.Remove(first.Key);
+                    }
+                    return new KeyValuePair<TPriority, TItem>(first.Key,nextItem);
+                }
+                else
+                    throw new InvalidOperationException("The queue is empty");
+            }
+
+            public IEnumerator<KeyValuePair<TPriority,TItem>> GetEnumerator()
+            {
+                var q = _subqueues.SelectMany(pair => pair.Value.Select(item => new KeyValuePair<TPriority,TItem>(pair.Key,item)));
+                return q.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return ((IEnumerable) _subqueues).GetEnumerator();
+            }
+        }
+
+        public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours,Func<T,T,int> getCost, Func<T, bool> isEnd = null)
+        {
+            return dijkstra(start, getNeighbours,getCost, false, isEnd);
+        }
+
+        private static IEnumerable<T> dijkstra<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, bool pathOnly,
+            Func<T, bool> isEnd = null)
+        {
+            var visitedFrom = new Dictionary<T, T>();
+            var toVisit = new PriorityQueue<int,T>();
+            toVisit.Enqueue(0,start);
+            visitedFrom.Add(start, default(T));
 
             while (toVisit.Any())
             {
-                var currentNode = toVisit.First();
+                var currentNode = toVisit.Dequeue();
                 var current = currentNode.Value;
                 var currentCost = currentNode.Key;
 
-                if (isEnd != null && isEnd(current))
+
+                if (!pathOnly)
                 {
-                    var path = new List<T>();
-                    while (!current.Equals(start))
-                    {
-                        path.Add(current);
-                        current = visited[current];
-                    }
-                    path.Add(current);
-                    path.Reverse();
-                    return path;
+                    yield return current;
                 }
 
-                foreach (var next in getNeighbours(current)
-                    .Where(n => !visited.ContainsKey(n)))
+                if (isEnd != null && isEnd(current))
                 {
-                    toVisit.Add(currentCost++, next); // todo change cost !!! And func ? Func<T,T,int>
-                    visited.Add(next, current);
+                    if (pathOnly)
+                    {
+                        var path = new Queue<T>();
+                        
+                        while (!current.Equals(start))
+                        {
+                            path.Enqueue(current);
+                            current = visitedFrom[current];
+                        }
+                        path.Enqueue(current);
+                        while (path.Any())
+                        {
+                            yield return path.Dequeue();
+                        }
+
+                    }
+                    yield break;
+                }
+
+                var neighbours = getNeighbours(current)
+                    .Where(n => !visitedFrom.ContainsKey(n))
+                    .Reverse()
+                    .ToList();
+                foreach (var neighbour in neighbours)
+                {
+                    toVisit.Enqueue(currentCost + getCost(current,neighbour), neighbour); // <= add move cost here !
+                    visitedFrom.Add(neighbour, current);
                 }
             }
 
-            return Enumerable.Empty<T>();
-        } 
+        }
+
+        public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, bool> isEnd = null)
+        {
+            return dijkstra(start, getNeighbours,getCost, true, isEnd);
+        }
     }
 }

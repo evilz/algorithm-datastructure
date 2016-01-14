@@ -46,12 +46,14 @@ namespace GraphTraversal.Visualizer
             var currentMaze = MAZE;
             Func<Point, char> getCell = GetCell(MAZE);
             Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
+            Func<Point, Point, int> getCost = (from, to) => (to.X + to.Y)%2 == 0 ? 1 : 3;  
             var millisecondsTimeout = 300;
 
             var algorithms = new Dictionary<int, Tuple<string, Func<IEnumerable<Point>>, Func<IEnumerable<Point>>>> 
             {
                 {1, "Depth First Search", () =>  DepthFirstSearch.Explore(start, getNeighbours),()=>DepthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) ) },
-                {2, "Breadth First Search", () =>  BreadthFirstSearch.Explore(start, getNeighbours) ,()=>BreadthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) )}
+                {2, "Breadth First Search", () =>  BreadthFirstSearch.Explore(start, getNeighbours) ,()=>BreadthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) )},
+                {3, "Dijkstra", () =>  Dijkstra.Explore(start, getNeighbours,getCost ) ,()=>Dijkstra.FindPath(start,getNeighbours,getCost,p => p.Equals(end) )}
             };
 
             Console.WriteLine("Choose traversal algorithm :");

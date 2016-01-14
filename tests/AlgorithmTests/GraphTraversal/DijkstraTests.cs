@@ -28,8 +28,10 @@ namespace AlgorithmTests.GraphTraversal
             Func<Point, char> getCell = GetCell(maze);
             Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
 
+            Func<Point, Point, int> getCost = (from, to) => (to.X + to.Y) % 3 == 0 ? 1 : 10;
 
-            var result = Dijkstra.Explore(start, getNeighbours);
+
+            var result = Dijkstra.Explore(start, getNeighbours,getCost);
 
             var path = new List<Point>();
             foreach (var item in result)
