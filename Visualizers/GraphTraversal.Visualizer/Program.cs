@@ -10,18 +10,18 @@ namespace GraphTraversal.Visualizer
     class Program
     {
         private const string MAZE =
-@"%%%%%%%%%%%%%%%%%%%%
-%-----@--------%---%
-%-%%-%%-%%-%%-%%-%-%
-%--------S-@-----%-%
-%%%%%%%%%%%%%%%%%%-%
-%----%%%%%%%%%%----%  
-%----%------@------%
-%----%--@@----@@---%
-%.---%-----@-------%
-%----%%%%%%%%%%@-@@%
-%------------------%
-%%%%%%%%%%%%%%%%%%%%";
+@"%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----@--------%--------%
+%-%%-%%-%%-%%-%%-%------%
+%--------S-@-----%------%
+%%%%%%%%%%%%%%%%%%------%
+%----%%%%%%%%%%---------%  
+%----%------@-----------%
+%----%--@@----@@--------%
+%.---%-----@------------%
+%----%%%%%%%%%%@-@@-----%
+%-----------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%";
 
         private static Func<Point, char> GetCell(string grid)
         {
@@ -139,8 +139,9 @@ namespace GraphTraversal.Visualizer
                     Console.BackgroundColor = ConsoleColor.DarkRed;
                 if (c == '+')
                     Console.ForegroundColor = ConsoleColor.Green;
+                if (c == '@')
+                    Console.BackgroundColor = ConsoleColor.DarkMagenta;
 
-                
                 Console.Write(c);
                 Console.ResetColor();
             }
