@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Collection\SimpleLinkedList\SimpleLinkedListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Set\WeightedQuickUnionTests.cs" />
+    <Compile Include="Set\QuickUnionTests.cs" />
+    <Compile Include="Set\QuickFindTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\DataStructure\DataStructure.csproj">
