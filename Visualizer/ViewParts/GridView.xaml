@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Visualizer.ViewParts.GridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Visualizer.ViewParts"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="DataTemplate_Level2">
+            <Rectangle Width="20" Height="20" Fill="{Binding BackgroundBrush}" Margin="0.5" MouseEnter="UIElement_OnMouseEnter" MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown" />
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="DataTemplate_Level1">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplate_Level2}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ItemsControl 
+                  ItemsSource="{Binding Cells}" 
+                  ItemTemplate="{DynamicResource DataTemplate_Level1}" 
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  ScrollViewer.CanContentScroll="True" >
+        <ItemsControl.Template>
+            <ControlTemplate TargetType="ItemsControl">
+                <Border Background="DimGray">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                        <ItemsPresenter/>
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </ItemsControl.Template>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+</UserControl>

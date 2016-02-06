@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{FBA55472-2DE8-4630-B435-025F00449C0A}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visualizer", "Visualizer", "{E87F6202-6055-4180-B6BE-104395E28DE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTraversal.Visualizer", "Visualizers\GraphTraversal.Visualizer\GraphTraversal.Visualizer.csproj", "{EB126F64-ED33-45C2-B0C9-DEA178F151C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "Visualizer\Visualizer.csproj", "{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{EB126F64-ED33-45C2-B0C9-DEA178F151C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB126F64-ED33-45C2-B0C9-DEA178F151C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB126F64-ED33-45C2-B0C9-DEA178F151C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +73,6 @@ Global
 		{80888F58-DA07-4BD4-9ACA-D3FBF17F113B} = {3F4A5403-3DDA-4579-A56C-5233F80B80FF}
 		{4F9A6391-52A7-492E-9DC0-F0B43EA0120A} = {3F4A5403-3DDA-4579-A56C-5233F80B80FF}
 		{EB126F64-ED33-45C2-B0C9-DEA178F151C1} = {E87F6202-6055-4180-B6BE-104395E28DE9}
+		{3FCD1F0A-F5A1-4652-8767-37F0C2D3CD85} = {FBA55472-2DE8-4630-B435-025F00449C0A}
 	EndGlobalSection
 EndGlobal

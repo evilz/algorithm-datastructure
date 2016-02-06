@@ -33,7 +33,7 @@ namespace DataStructure.Set
             int i = Root(p);
             int j = Root(q);
 
-            if (_connectionsSizes[i] <= _connectionsSizes[j])
+            if (_connectionsSizes[i] < _connectionsSizes[j])
             {
                 _connections[i] = j;
                 _connectionsSizes[j] += _connectionsSizes[i];
