@@ -29,6 +29,19 @@ Sample :
 | O(n!)     | 1.000E+00 | 2.092E+13 |     —     |     —     |     —     |     —     |
 
 
+# Data Structures
+
+## Set
+
+- Union Find : :white_medium_square:
+
+## Collection
+- Deque :white_medium_square:
+- RandomizedQueue  :white_medium_square:
+
+
+# Algorithms
+
 ### DFS Console visualizer
 
 ![](https://raw.githubusercontent.com/evilz/algorithm-datastructure/master/DFS-Visualizer.gif)
