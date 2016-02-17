@@ -52,6 +52,8 @@ namespace GraphTraversal.Visualizer
             Func<Point, IEnumerable<Point>> getNeighbours = GetNeighbours(getCell);
             Func<Point, Point, int> getCost = (from, to) => getCell(to) == '@' ? 4:1 ;
             Func<Point, int> manhattanHeuristic = (to) => Math.Abs(to.X - end.X) + Math.Abs(to.Y - end.Y);
+            Func<Point, double> manhattanHeuristicD = (to) => Math.Abs(to.X - end.X) + Math.Abs(to.Y - end.Y);
+
             var millisecondsTimeout = 100;
 
             var algorithms = new Dictionary<int, Tuple<string, Func<IEnumerable<Point>>, Func<IEnumerable<Point>>>>
@@ -60,7 +62,7 @@ namespace GraphTraversal.Visualizer
                 {2, "Breadth First Search", () =>  BreadthFirstSearch.Explore(start, getNeighbours) ,()=>BreadthFirstSearch.FindPath(start,getNeighbours,p => p.Equals(end) )},
                 {3, "Dijkstra", () =>  Dijkstra.Explore(start, getNeighbours,getCost ) ,()=>Dijkstra.FindPath(start,getNeighbours,getCost,p => p.Equals(end) )},
                 {4, "Greedy Best-First Search (with manhattan)", () => GreedyBestFirstSearch.Explore(start, getNeighbours, manhattanHeuristic),()=>GreedyBestFirstSearch.FindPath(start,getNeighbours,manhattanHeuristic,p => p.Equals(end) )},
-                {5, "A* (with manhattan)", () => AStar.Explore(start, getNeighbours,getCost, manhattanHeuristic),()=>AStar.FindPath(start,getNeighbours,getCost,manhattanHeuristic,p => p.Equals(end) )},
+                {5, "A* (with manhattan)", () => AStar.Explore(start, getNeighbours,getCost, manhattanHeuristicD),()=>AStar.FindPath(start,getNeighbours,getCost,manhattanHeuristicD,p => p.Equals(end) )},
             };
 
 

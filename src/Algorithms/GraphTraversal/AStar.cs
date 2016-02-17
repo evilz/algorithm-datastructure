@@ -57,16 +57,16 @@ namespace Algorithms.GraphTraversal
             }
         }
 
-        public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, int> heuristic, Func<T, bool> isEnd = null)
+        public static IEnumerable<T> Explore<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, double> heuristic, Func<T, bool> isEnd = null)
         {
             return astar(start, getNeighbours, getCost, heuristic, false, isEnd);
         }
 
-        private static IEnumerable<T> astar<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, int> heuristic, bool pathOnly,
+        private static IEnumerable<T> astar<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, double> heuristic, bool pathOnly,
             Func<T, bool> isEnd = null)
         {
             var visitedFromAndCost = new Dictionary<T, Tuple<T, int>>();
-            var toVisit = new PriorityQueue<int, T>();
+            var toVisit = new PriorityQueue<double, T>();
 
             toVisit.Enqueue(0, start);
             visitedFromAndCost.Add(start, new Tuple<T, int>(default(T), 0));
@@ -121,7 +121,7 @@ namespace Algorithms.GraphTraversal
 
         }
 
-        public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, int> heuristic, Func<T, bool> isEnd = null)
+        public static IEnumerable<T> FindPath<T>(T start, Func<T, IEnumerable<T>> getNeighbours, Func<T, T, int> getCost, Func<T, double> heuristic, Func<T, bool> isEnd = null)
         {
             return astar(start, getNeighbours, getCost, heuristic, true, isEnd);
         }

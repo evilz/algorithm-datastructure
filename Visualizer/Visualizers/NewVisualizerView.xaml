@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Visualizer.Visualizers.NewVisualizerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Visualizer.Visualizers"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:NewVisualizerViewModel, IsDesignTimeCreatable=False}"
+            >
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical" Margin="100,50">
+
+
+
+            <TextBlock  Text="Grid Size" Style="{StaticResource MaterialDesignDisplay1TextBlock}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Rows count :" ></TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="{Binding Value, ElementName=SliderRowsCount, StringFormat={}{####}}"  HorizontalAlignment="Right" />
+            </StackPanel>
+            <Slider x:Name="SliderRowsCount" Value="{Binding RowCount}" LargeChange="20" SmallChange="1" Interval="5" TickPlacement="None" Orientation="Horizontal" Minimum="1" Maximum="1000" />
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Columns count :" FontSize="16" ></Label>
+                <Label Content="{Binding Value, ElementName=SliderColCount}"  ContentStringFormat="####" FontSize="16" HorizontalAlignment="Right"></Label>
+            </StackPanel>
+            <Slider Style="{DynamicResource MaterialDesignDiscreteSlider}" x:Name="SliderColCount" Value="{Binding ColCount}" LargeChange="20" SmallChange="1" Interval="5" TickPlacement="None" Orientation="Horizontal" Minimum="1" Maximum="1000" />
+
+            <Border Height="56" ></Border>
+
+            <Label Content="Algorithm category" Style="{DynamicResource DescriptionHeaderStyle}" />
+
+            <ComboBox materialDesign:TextFieldAssist.Hint="Select Algorithms">
+                <ComboBoxItem>Pathfinding</ComboBoxItem>
+                <ComboBoxItem>Set</ComboBoxItem>
+            </ComboBox>
+
+            <Border Height="56" ></Border>
+            <Button Command="{Binding Create}" Content="Create" HorizontalAlignment="Right" ></Button>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
