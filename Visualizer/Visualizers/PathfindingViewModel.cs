@@ -30,6 +30,7 @@ namespace Visualizer.Visualizers
 
             PlayCommand = new RelayCommand(Play, CanPlay);
         }
+        
 
         private bool CanPlay()
         {

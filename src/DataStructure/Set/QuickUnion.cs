@@ -1,32 +1,34 @@
-using System.Linq;
-
 namespace DataStructure.Set
 {
-    public class QuickUnion
+    public class QuickUnion : UnionFindBase
     {
-        private readonly int[] _connections;
+        public int Count { get; private set; }
 
-        public QuickUnion(int size)
+        public QuickUnion(int length) : base(length){}
+        
+        public override void Connect(int p, int q)
         {
-            _connections = Enumerable.Range(0, size).ToArray();
+            var rootP = Find(p);
+            var rootQ = Find(q);
+            if (rootP == rootQ) { return; }
+            Connections[rootP] = rootQ;
+            Count--;
         }
 
-        private int Root(int i)
+        public override int Find(int p)
         {
-            while (i != _connections[i]) i = _connections[i];
-            return i;
+            Validate(p);
+            while (p != Connections[p])
+            {
+                p = Connections[p];
+            }
+            return p;
         }
-
-        public void Connect(int p, int q)
+        
+        public override bool IsConnected(int p, int q)
         {
-            int i = Root(p);
-            int j = Root(q);
-            _connections[i] = j;
+            return Find(p) == Find(q);
         }
-
-        public bool IsConnected(int p, int q)
-        {
-            return Root(p) == Root(q);
-        }
+        
     }
 }

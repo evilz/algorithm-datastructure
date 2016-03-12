@@ -63,23 +63,7 @@ namespace DataStructureTests.Set
             Assert.That(uf.IsConnected(P, R), Is.True);
 
         }
-
-        [Test]
-        public void coursera()
-        {
-            var size = 10;
-            var uf = new QuickFind(size);
-
-            
-            uf.Connect(4, 3);
-            uf.Connect(0, 5);
-            uf.Connect(7, 9);
-            uf.Connect(5, 3);
-            uf.Connect(2, 7);
-            uf.Connect(9, 1);
-            
-        }
-
+        
 
         // P_should_be_connected_to_is_self // reflexive
         //Q_is_connected_to_P_when_P_is_connected_to_Q // symmetric

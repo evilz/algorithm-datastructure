@@ -2,53 +2,55 @@ using System.Linq;
 
 namespace DataStructure.Set
 {
-    public class WeightedQuickUnion
+    public class WeightedQuickUnion : UnionFindBase
     {
-        private readonly int[] _connections;
+        private readonly bool _compressed;
         private readonly int[] _connectionsSizes;
 
-        public WeightedQuickUnion(int size)
+        public WeightedQuickUnion(int length, bool compressed = true) : base(length)
         {
-            _connections = Enumerable.Range(0, size).ToArray();
-            _connectionsSizes = Enumerable.Repeat(1, size).ToArray();
+            _compressed = compressed;
+            _connectionsSizes = Enumerable.Repeat(1, length).ToArray();
         }
 
-        private int Root(int i)
+        public override int Find(int p)
         {
-            while (i != _connections[i])
+            Validate(p);
+            while (p != Connections[p])
             {
-                 CompressPath(i);
-                i = _connections[i];
+                if(_compressed) { CompressPath(p);}
+                p = Connections[p];
             }
-            return i;
+            return p;
         }
-
+        
         private void CompressPath(int i)
         {
-            _connections[i] = _connections[_connections[i]];
+            Connections[i] = Connections[Connections[i]];
         }
 
-        public void Connect(int p, int q)
+        public override void Connect(int p, int q)
         {
-            int i = Root(p);
-            int j = Root(q);
+            var rootP = Find(p);
+            var rootQ = Find(q);
+            if (rootP == rootQ) return;
 
-            if (_connectionsSizes[i] < _connectionsSizes[j])
+            // make smaller root point to larger one
+            if (_connectionsSizes[rootP] < _connectionsSizes[rootQ])
             {
-                _connections[i] = j;
-                _connectionsSizes[j] += _connectionsSizes[i];
+                Connections[rootP] = rootQ;
+                _connectionsSizes[rootQ] += _connectionsSizes[rootP];
             }
-            else
-            {
-                _connections[j] = i;
-                _connectionsSizes[i] += _connectionsSizes[j];
+            else {
+                Connections[rootQ] = rootP;
+                _connectionsSizes[rootP] += _connectionsSizes[rootQ];
             }
-            
+            Count--;
         }
 
-        public bool IsConnected(int p, int q)
+        public override bool IsConnected(int p, int q)
         {
-            return Root(p) == Root(q);
+            return Find(p) == Find(q);
         }
     }
 }

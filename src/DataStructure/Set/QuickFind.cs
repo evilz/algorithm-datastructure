@@ -1,32 +1,39 @@
 ﻿using System.Linq;
-using System.Runtime.Serialization.Formatters;
 
 namespace DataStructure.Set
 {
-    public class QuickFind
+    public class QuickFind : UnionFindBase
     {
-        private readonly int[] _connections;
+        public QuickFind(int length) : base(length){ }
 
-        public QuickFind(int length)
+        /// O(1)
+        public override int Find(int p)
         {
-            _connections = Enumerable.Range(0, length).ToArray();
+            Validate(p);
+            return Connections[p];
         }
 
-        public bool IsConnected(int p, int q)
+        /// O(1)
+        public override bool IsConnected(int p, int q)
         {
-            return _connections[q] == _connections[p];
+            Validate(p);
+            Validate(q);
+            return Connections[q] == Connections[p];
         }
 
-        public void Connect(int p, int q)
+        /// O(n)
+        public override void Connect(int p, int q)
         {
-            var pid = _connections[p];
-            for (var i = 0; i < _connections.Length; i++)
+            var pId = Connections[p];
+            var qId = Connections[q];
+
+            if (pId == qId) return;
+
+            for (var i = 0; i < Connections.Length; i++)
             {
-                if (_connections[i] == pid)
-                {
-                    _connections[i] = _connections[q];
-                }
+                if (Connections[i] == pId) { Connections[i] = qId; }
             }
+            Count--;
         }
     }
 }
