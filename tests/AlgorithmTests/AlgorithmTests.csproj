@@ -50,6 +50,7 @@
     <Compile Include="Recursion\RecusionTests.cs" />
     <Compile Include="Sorting\MergeSortTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sorting\SortTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Algorithms\Algorithms.csproj">
