@@ -2,8 +2,6 @@ namespace DataStructure.Set
 {
     public class QuickUnion : UnionFindBase
     {
-        public int Count { get; private set; }
-
         public QuickUnion(int length) : base(length){}
         
         public override void Connect(int p, int q)
