@@ -42,6 +42,9 @@ Sample :
 
 # Algorithms
 
+- GraphTraversal
+  - (BreadthFirstSearch.cs)[src/Algorithms/GraphTraversal/BreadthFirstSearch.cs]
+
 ### DFS Console visualizer
 
 ![](https://raw.githubusercontent.com/evilz/algorithm-datastructure/master/DFS-Visualizer.gif)
