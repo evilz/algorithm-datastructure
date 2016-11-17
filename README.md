@@ -43,7 +43,7 @@ Sample :
 # Algorithms
 
 - GraphTraversal
-  - (BreadthFirstSearch.cs)[src/Algorithms/GraphTraversal/BreadthFirstSearch.cs]
+  - [BreadthFirstSearch](src/Algorithms/GraphTraversal/BreadthFirstSearch.cs)
 
 ### DFS Console visualizer
 
