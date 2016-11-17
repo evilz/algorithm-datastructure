@@ -44,6 +44,11 @@ Sample :
 
 - GraphTraversal
   - [BreadthFirstSearch](src/Algorithms/GraphTraversal/BreadthFirstSearch.cs)
+  - [DepthFirstSearch](src/Algorithms/GraphTraversal/DepthFirstSearch.cs)
+  - [GreedyBestFirstSearch](src/Algorithms/GraphTraversal/GreedyBestFirstSearch.cs)
+  - [Dijkstra](src/Algorithms/GraphTraversal/Dijkstra.cs)
+  - [AStar](src/Algorithms/GraphTraversal/AStar.cs)
+
 
 ### DFS Console visualizer
 
