@@ -31,6 +31,20 @@ Sample :
 
 # Data Structures
 
+## .net framework Data structure
+
+|                  | Internal Implement- ation                                 | Add/insert                             | Add beyond capacity | Queue/Push | Dequeue/Pop/Peek | Remove/ RemoveAt              | Item[index]/ElementAt(index) | GetEnumerator | Contains(value)/IndexOf/ContainsValue/Find |
+|------------------|-----------------------------------------------------------|----------------------------------------|---------------------|------------|------------------|-------------------------------|------------------------------|---------------|--------------------------------------------|
+| List             | Array                                                     | O(1) to add, O(n) to insert            | O(n)                | -          | -                | O(n)                          | O(1)                         | O(1)          | O(n)                                       |
+| LinkedList       | Doubly linked list                                        | O(1), before/after given node          | O(1)                | O(1)       | O(1)             | O(1), before/after given node | O(n)                         | O(1)          | O(n)                                       |
+| Stack            | Array                                                     | O(1)                                   | O(n)                | O(1)       | O(1)             | -                             | -                            | O(1)          | O(n)                                       |
+| Queue            | Array                                                     | O(1)                                   | O(n)                | O(1)       | O(1)             | -                             | -                            | O(1)          | O(n)                                       |
+| Dictionary       | Hashtable with links to another array index for collision | O(1), O(n) if collision                | O(n)                | -          | -                | O(1), O(n) if collision       | O(1), O(n) if collision      | O(1)          | O(n)                                       |
+| HashSet          | Hashtable with links to another array index for collision | O(1), O(n) if collision                | O(n)                | -          | -                | O(1), O(n) if collision       | O(1), O(n) if collision      | O(1)          | -                                          |
+| SortedDictionary | Red-black tree                                            | O(log n)                               | O(log n)            | -          | -                | O(log n)                      | O(log n)                     | O(log n)      | O(n)                                       |
+| SortedList       | Array                                                     | O(n), O(log n) if added to end of list | O(n)                | -          | -                | O(n)                          | O(log n)                     | O(1)          | O(n)                                       |
+| SortedSet        | Red-black tree                                            | O(log n)                               | O(log n)            | -          | -                | O(log n)                      | O(log n)                     | O(log n)      | -                                          |
+
 ## Set
 
 - Union Find : :white_medium_square:
